@@ -4,3 +4,9 @@ import mongoose from 'mongoose'
 import cors from 'cors'
 
 //nowoczesny typ zapisu powyżej możliwy jest dzięki " "type": "module"" w package.json" 
+
+const app = express()
+
+app.use(bodyParser.json({ limit: "30mb", extended: true }))
+app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }))
+app.use(cors())
