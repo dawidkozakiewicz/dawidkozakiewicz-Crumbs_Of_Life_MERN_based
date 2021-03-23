@@ -12,8 +12,8 @@ import NewPlace from './places/pages/NewPlace';
 const App = () => {
   return (
     <Router>
-      <Switch> {/* gdyby nie switch, nastąpiłaby egzekucja kodu w dół i route wróciłby do "/" */}
-        <Route path="/" exact> {/* bez exact renderowałoby wszystko, co zaczyna się na "/" */}
+      <Switch>
+        <Route path="/" exact>
           <Users />
         </Route>
         <Route path="/places/new" exact>
