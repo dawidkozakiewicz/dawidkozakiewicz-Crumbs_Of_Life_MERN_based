@@ -15,9 +15,9 @@ const formReducer = (state, action) => {
     //tak przekażą po pierwszym renderze)
     case 'INPUT_CHANGE':
       let formIsValid = true; // będzie zarządzać buttonem - czy ma być disabled, czy nie
-      console.log(action)
       // iteracja po obiekcie inputs w stanie (po jego właściwościach) - title i description:
       for (const inputId in state.inputs) {
+        console.log(inputId, typeof inputId)
         if (inputId === action.inputId) { // jeśli właśnie iteruje właściwość, której dotyczy zdispaczowana akcja, to:
           // formIsValid jest true wtedy,
           //kiedy był true powyżej, oraz kiedy w dispaczu isValid (właściwość przekazana ze stanu komponentu <Input />) jest true:
@@ -25,7 +25,7 @@ const formReducer = (state, action) => {
 
         } else { // a jeśli iteruje po własności, której nie dotyczy zdispaczowana akcja to 
           // formIsValid jest true, kiedy powyżej był true oraz kiedy w stanie, w obiekcie o właściwości 
-          // której nie wysyła dispacz, właściwość isValid jest true 
+          // której nie wysyła dispacz, właściwość isValid też jest true 
           formIsValid = formIsValid && state.inputs[inputId].isValid;
         }
       }
