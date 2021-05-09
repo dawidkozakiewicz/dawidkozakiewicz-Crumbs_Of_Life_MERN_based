@@ -26,6 +26,7 @@ const formReducer = (state, action) => {
         } else { // a jeśli iteruje po własności, której nie dotyczy zdispaczowana akcja to 
           // formIsValid jest true, kiedy powyżej był true oraz kiedy w stanie, w obiekcie o właściwości 
           // której nie wysyła dispacz, właściwość isValid też jest true 
+          // iputId jako string musi być wydobyty z obiektu w nawiasie kwadratowym
           formIsValid = formIsValid && state.inputs[inputId].isValid;
         }
       }
@@ -33,11 +34,12 @@ const formReducer = (state, action) => {
         ...state,
         inputs: {
           ...state.inputs,
+          // tutaj zmieni w state to, co przekazała akcja:
           [action.inputId]: { value: action.value, isValid: action.isValid }
         },
         isValid: formIsValid
       };
-    default:
+    default: // a gdy nic się nie zmieni to powtórzy state:
       return state;
   }
 };
