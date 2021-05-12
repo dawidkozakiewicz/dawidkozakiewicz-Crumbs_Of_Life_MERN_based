@@ -10,23 +10,12 @@ import './NewPlace.css';
 
 const formReducer = (state, action) => {
   switch (action.type) {
-    // ogólnie to po pierwszym renderze zawsze właściwość "isValid" przekazana w akcji będzie false,
-    // ponieważ tak jest ustawione w state komponentu <Input /> jako wartość domyślna (zarówno input jak i textarea
-    //tak przekażą po pierwszym renderze)
     case 'INPUT_CHANGE':
-      let formIsValid = true; // będzie zarządzać buttonem - czy ma być disabled, czy nie
-      // iteracja po obiekcie inputs w stanie (po jego właściwościach) - title i description:
+      let formIsValid = true;
       for (const inputId in state.inputs) {
-        console.log(inputId, typeof inputId)
-        if (inputId === action.inputId) { // jeśli właśnie iteruje właściwość, której dotyczy zdispaczowana akcja, to:
-          // formIsValid jest true wtedy,
-          //kiedy był true powyżej, oraz kiedy w dispaczu isValid (właściwość przekazana ze stanu komponentu <Input />) jest true:
+        if (inputId === action.inputId) {
           formIsValid = formIsValid && action.isValid;
-
-        } else { // a jeśli iteruje po własności, której nie dotyczy zdispaczowana akcja to 
-          // formIsValid jest true, kiedy powyżej był true oraz kiedy w stanie, w obiekcie o właściwości 
-          // której nie wysyła dispacz, właściwość isValid też jest true 
-          // iputId jako string musi być wydobyty z obiektu w nawiasie kwadratowym
+        } else {
           formIsValid = formIsValid && state.inputs[inputId].isValid;
         }
       }
@@ -34,12 +23,11 @@ const formReducer = (state, action) => {
         ...state,
         inputs: {
           ...state.inputs,
-          // tutaj zmieni w state to, co przekazała akcja:
           [action.inputId]: { value: action.value, isValid: action.isValid }
         },
         isValid: formIsValid
       };
-    default: // a gdy nic się nie zmieni to powtórzy state:
+    default:
       return state;
   }
 };
@@ -68,8 +56,13 @@ const NewPlace = () => {
     });
   }, []);
 
+  const placeSubmitHandler = event => {
+    event.preventDefault();
+    console.log(formState.inputs); // send this to the backend!
+  };
+
   return (
-    <form className="place-form">
+    <form className="place-form" onSubmit={placeSubmitHandler}>
       <Input
         id="title"
         element="input"
@@ -85,6 +78,14 @@ const NewPlace = () => {
         label="Description"
         validators={[VALIDATOR_MINLENGTH(5)]}
         errorText="Please enter a valid description (at least 5 characters)."
+        onInput={inputHandler}
+      />
+      <Input
+        id="address"
+        element="input"
+        label="Address"
+        validators={[VALIDATOR_REQUIRE()]}
+        errorText="Please enter a valid address."
         onInput={inputHandler}
       />
       <Button type="submit" disabled={!formState.isValid}>
