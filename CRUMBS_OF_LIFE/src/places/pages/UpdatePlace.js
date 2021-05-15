@@ -59,7 +59,7 @@ const UpdatePlace = () => {
         label="Title"
         validators={[VALIDATOR_REQUIRE()]}
         errorText="Please enter a valid title."
-        onInput={() => {}}
+        onInput={() => { }}
         value={identifiedPlace.title}
         valid={true}
       />
@@ -67,9 +67,9 @@ const UpdatePlace = () => {
         id="description"
         element="textarea"
         label="Description"
-        validators={[VALIDATOR_MINLENGTH(5)]}
+        validators={[VALIDATOR_MINLENGTH(5)]} // minimum 5 characters
         errorText="Please enter a valid description (min. 5 characters)."
-        onInput={() => {}}
+        onInput={() => { }}
         value={identifiedPlace.description}
         valid={true}
       />
